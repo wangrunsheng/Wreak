@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">读周记</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">仪表盘</string>
+    <string name="title_notifications">通知</string>
+    <string name="toolbar_title_table">列表</string>
+    <string name="account">我的</string>
+    <string name="history">历史</string>
+    <string name="calendar">日历</string>
+    <string name="add_cancel">取消</string>
+    <string name="add_complete">完成</string>
+    <string name="toolbar_title_add">新建</string>
+    <string name="toolbar_btn_add">新建</string>
+    <string name="input_book_name">书目名称</string>
+    <string name="input_total_pages">总页数</string>
+    <string name="input_everyday_pages">每天阅读页数</string>
+    <string name="complete_time">完成时间</string>
+    <string name="search_book_cover">搜索书籍封面</string>
+    <string name="toolbar_back">返回</string>
+</resources>
