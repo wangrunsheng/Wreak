@@ -6,35 +6,21 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:background="@color/colorPrimary"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="@string/toolbar_title_add"
+            android:textColor="@color/colorAccent" />
 
-            <Button
-                android:id="@+id/add_cancel_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_cancel" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/toolbar_title_add"
-                android:textColor="@color/colorAccent" />
-
-            <Button
-                android:id="@+id/add_complete_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/add_complete" />
-        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
@@ -44,31 +30,42 @@
 
         <ImageView
             android:id="@+id/add_book_cover_iv"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/dribbble_read_2x"
-            android:layout_gravity="center_vertical"/>
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:visibility="visible"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_image_grey_24dp" />
 
         <EditText
             android:id="@+id/input_book_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
+            android:background="@null"
             android:hint="@string/input_book_name"
             android:singleLine="true" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="50dp"
+        android:background="@color/shadow" />
 
 
     <EditText
         android:id="@+id/input_total_pages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
+        android:background="@null"
         android:hint="@string/input_total_pages"
         android:singleLine="true" />
 
@@ -76,9 +73,10 @@
         android:id="@+id/input_everyday_pages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
+        android:background="@null"
         android:hint="@string/input_everyday_pages"
         android:singleLine="true" />
 
@@ -86,7 +84,7 @@
         android:id="@+id/complete_time_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:padding="5dp"

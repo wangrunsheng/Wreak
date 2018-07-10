@@ -6,29 +6,20 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:background="@color/colorPrimary"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/search_book_cover"
-                android:textColor="@color/colorAccent" />
-
-            <Button
-                android:id="@+id/back_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/toolbar_back" />
-        </RelativeLayout>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="@string/search_book_cover"
+            android:textColor="@color/colorAccent" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.SearchView
@@ -40,5 +31,6 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/book_cover_rv"
         android:layout_width="match_parent"
+        android:background="@color/whitesmoke"
         android:layout_height="match_parent" />
 </LinearLayout>

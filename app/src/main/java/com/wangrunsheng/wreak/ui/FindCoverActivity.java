@@ -1,11 +1,15 @@
-package com.wangrunsheng.wreak;
+package com.wangrunsheng.wreak.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,9 +20,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.orhanobut.logger.Logger;
+import com.wangrunsheng.wreak.R;
 import com.wangrunsheng.wreak.adapter.BookCoverAdapter;
 import com.wangrunsheng.wreak.beans.BookBean;
+import com.wangrunsheng.wreak.util.BookCoverUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by Russell on 2018/3/19.
@@ -26,9 +35,11 @@ import com.wangrunsheng.wreak.beans.BookBean;
 
 public class FindCoverActivity extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
 
-    private Button mBackBtn;
+    private Toolbar mToolbar;
     private SearchView mBookCoverSearchView;
     private RecyclerView mBookCoverRv;
+    private BookCoverAdapter mBookCoverAdapter;
+    private String mBookCoverUrl = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,22 +49,64 @@ public class FindCoverActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        mBackBtn = (Button) findViewById(R.id.back_btn);
-        mBackBtn.setOnClickListener(this);
+        initToolbar();
         mBookCoverSearchView = (SearchView) findViewById(R.id.book_cover_search_view);
         mBookCoverSearchView.setIconifiedByDefault(false);
         mBookCoverSearchView.setOnQueryTextListener(this);
         mBookCoverRv = (RecyclerView) findViewById(R.id.book_cover_rv);
         mBookCoverRv.setLayoutManager(new GridLayoutManager(this, 2));
+        mBookCoverAdapter = new BookCoverAdapter(new ArrayList<BookBean.BooksBean>(), FindCoverActivity.this);
+        mBookCoverRv.setAdapter(mBookCoverAdapter);
+
+        mBookCoverAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mBookCoverAdapter.setSelectedPos(position);
+                mBookCoverAdapter.notifyDataSetChanged();
+                mBookCoverUrl = mBookCoverAdapter.getData().get(position).getImages().getSmall();
+            }
+        });
+    }
+
+    private void initToolbar() {
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.done, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.done:
+                done();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void done() {
+        Intent intent = new Intent();
+        intent.putExtra(BookCoverUtils.BOOK_COVER_URL, mBookCoverUrl);
+        setResult(BookCoverUtils.RC_BOOK_COVER, intent);
+        finish();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             default:
-                break;
-            case R.id.back_btn:
-                finish();
                 break;
         }
     }
@@ -85,8 +138,8 @@ public class FindCoverActivity extends AppCompatActivity implements View.OnClick
             public void onResponse(String response) {
                 Logger.json(response);
                 BookBean bookBean = JSONObject.parseObject(response, BookBean.class);
-                BookCoverAdapter adapter = new BookCoverAdapter(bookBean.getBooks(), FindCoverActivity.this);
-                mBookCoverRv.setAdapter(adapter);
+                mBookCoverAdapter.setNewData(bookBean.getBooks());
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -102,4 +155,5 @@ public class FindCoverActivity extends AppCompatActivity implements View.OnClick
     public boolean isDigit(String name) {
         return name.matches("[0-9]{1,}");
     }
+
 }

@@ -1,4 +1,4 @@
-package com.wangrunsheng.wreak;
+package com.wangrunsheng.wreak.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.wangrunsheng.wreak.R;
 import com.wangrunsheng.wreak.fragment.CalendarFragment;
 import com.wangrunsheng.wreak.fragment.HistoryFragment;
 import com.wangrunsheng.wreak.fragment.MeFragment;
@@ -36,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = mFragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    transaction.replace(R.id.fragment, new TableFragment()).commit();
+                    transaction.replace(R.id.fragment, mTableFragment).commit();
                     return true;
                 case R.id.navigation_calendar:
-
+                    transaction.replace(R.id.fragment, mCalendarFragment).commit();
                     return true;
                 case R.id.navigation_history:
-
+                    transaction.replace(R.id.fragment, mHistoryFragment).commit();
                     return true;
                 case R.id.navigation_me:
-
+                    transaction.replace(R.id.fragment, mMeFragment).commit();
                     return true;
             }
             return false;
@@ -56,11 +57,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Logger.addLogAdapter(new AndroidLogAdapter());
         mFragmentManager = getSupportFragmentManager();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         disableShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        initFragments();
+        navigation.setSelectedItemId(R.id.navigation_home);
+    }
+
+    private void initFragments() {
+        mTableFragment = new TableFragment();
+        mCalendarFragment = new CalendarFragment();
+        mHistoryFragment = new HistoryFragment();
+        mMeFragment = new MeFragment();
     }
 
     @SuppressLint("RestrictedApi")

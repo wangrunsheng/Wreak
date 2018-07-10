@@ -1,15 +1,22 @@
-package com.wangrunsheng.wreak;
+package com.wangrunsheng.wreak.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.orhanobut.logger.Logger;
+import com.wangrunsheng.wreak.R;
+import com.wangrunsheng.wreak.util.BookCoverUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
@@ -20,8 +27,7 @@ import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private Button mAddCancelBtn;
-    private Button mAddCompleteBtn;
+    private Toolbar mToolbar;
     private ImageView mCoverImageView;
     private EditText mInputBookName;
     private EditText mInputTotalPages;
@@ -36,10 +42,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void initView() {
-        mAddCancelBtn = (Button) findViewById(R.id.add_cancel_btn);
-        mAddCancelBtn.setOnClickListener(this);
-        mAddCompleteBtn = (Button) findViewById(R.id.add_complete_btn);
-        mAddCompleteBtn.setOnClickListener(this);
+        initToolbar();
         mCoverImageView = (ImageView) findViewById(R.id.add_book_cover_iv);
         mCoverImageView.setOnClickListener(this);
         mInputBookName = (EditText) findViewById(R.id.input_book_name);
@@ -49,16 +52,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         mCompleteTimeTv.setOnClickListener(this);
     }
 
+    private void initToolbar() {
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             default:
-                break;
-            case R.id.add_cancel_btn:
-                finish();
-                break;
-            case R.id.add_complete_btn:
-                finish();
                 break;
             case R.id.add_book_cover_iv:
                 showFindCoverActivity();
@@ -82,6 +85,27 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.done, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.done:
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
         mCompleteTimeTv.setText(date);
@@ -89,6 +113,19 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     private void showFindCoverActivity() {
         Intent intent = new Intent(this, FindCoverActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, BookCoverUtils.RC_BOOK_COVER);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == BookCoverUtils.RC_BOOK_COVER) {
+            String url = data.getStringExtra(BookCoverUtils.BOOK_COVER_URL);
+            if (!url.isEmpty()) {
+                Glide.with(this).load(url).into(mCoverImageView);
+            }
+
+        }
     }
 }
