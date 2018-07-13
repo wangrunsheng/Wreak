@@ -32,7 +32,7 @@ public class BookCoverAdapter extends BaseQuickAdapter<BookBean.BooksBean, BaseV
     @Override
     protected void convert(BaseViewHolder helper, BookBean.BooksBean item) {
         helper.setText(R.id.item_book_cover_tv, item.getTitle());
-        Logger.d("pos: " + mSelectedPos + " " + helper.getAdapterPosition());
+        Logger.i("pos: " + mSelectedPos + " " + helper.getAdapterPosition());
 
         if (helper.getAdapterPosition() == mSelectedPos) {
             setSelected(helper);

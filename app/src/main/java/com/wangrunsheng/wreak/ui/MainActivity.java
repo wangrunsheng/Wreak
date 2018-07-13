@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
 import com.wangrunsheng.wreak.R;
 import com.wangrunsheng.wreak.fragment.CalendarFragment;
 import com.wangrunsheng.wreak.fragment.HistoryFragment;
